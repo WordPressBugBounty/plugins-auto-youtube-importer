@@ -34,6 +34,30 @@ class Youtube {
     return $response[ 'items' ][ 0 ][ 'snippet' ][ 'title' ];
   }
 
+  public static function get_playlist_title( $playlist_id, $api_key = null ) {
+    if( empty( $api_key ) )
+      $api_key = YIS_Settings::instance()->get( 'youtube_api_key' );
+
+    $request_url = add_query_arg(  [
+      'key'        => $api_key,
+      'part'       => urlencode( 'snippet' ),
+      'id'         => $playlist_id
+    ], 'https://youtube.googleapis.com/youtube/v3/playlists' );
+
+    $response = wp_remote_get( $request_url );
+
+    if( is_wp_error( $response ) )
+      return sprintf( __( "%s - Cannot find playlist name", 'auto-youtube-importer' ), $playlist_id );
+
+    $response = wp_remote_retrieve_body( $response );
+    $response = json_decode( $response, true );
+
+    if( !isset( $response[ 'items' ] ) )
+      return sprintf( __( "%s - Cannot find playlist name", 'auto-youtube-importer' ), $playlist_id );
+
+    return $response[ 'items' ][ 0 ][ 'snippet' ][ 'title' ];
+  }
+
   /**
    * Youtube API Limits to a maximum of 500 results for a channel, and 50 per request.
    * Will leverage the query to filter a date before to get even more if the number is higher.

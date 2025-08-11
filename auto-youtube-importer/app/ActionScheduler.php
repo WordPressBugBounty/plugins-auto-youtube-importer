@@ -71,7 +71,12 @@ class ActionScheduler {
     }
 
     // Maybe deleted after queued, need to ensure it's fine.
-    if( isset( $meta_map[ 'secondline_youtube_channel_id' ] ) ) {
+    $has_source_id = (
+      isset( $meta_map[ 'secondline_youtube_channel_id' ] )
+      || isset( $meta_map[ 'secondline_youtube_playlist_id' ] )
+    );
+
+    if( $has_source_id ) {
       $importer = YIS_Helper_Importer::from_meta_map( $meta_map );
       $response = $importer->import_current_feed();
 

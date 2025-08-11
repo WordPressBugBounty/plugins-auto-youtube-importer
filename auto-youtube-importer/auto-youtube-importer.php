@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Auto YouTube Importer
  * Description:       A simple YouTube video importer plugin with automatic / ongoing YouTube sync features.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            SecondLineThemes
  * Author URI:        https://secondlinethemes.com/
  * License:           GPL-2.0+
@@ -14,7 +14,7 @@
 if ( ! defined( 'WPINC' ) )
 	die;
 
-define( 'YOUTUBE_IMPORTER_SECONDLINE_VERSION', '1.1.0' );
+define( 'YOUTUBE_IMPORTER_SECONDLINE_VERSION', '1.1.1' );
 define( "YOUTUBE_IMPORTER_SECONDLINE_BASE_FILE_PATH", __FILE__ );
 define( "YOUTUBE_IMPORTER_SECONDLINE_BASE_PATH", dirname( YOUTUBE_IMPORTER_SECONDLINE_BASE_FILE_PATH ) );
 define( "YOUTUBE_IMPORTER_SECONDLINE_PLUGIN_IDENTIFIER", ltrim( str_ireplace( dirname( YOUTUBE_IMPORTER_SECONDLINE_BASE_PATH ), '', YOUTUBE_IMPORTER_SECONDLINE_BASE_FILE_PATH ), '/' ) );

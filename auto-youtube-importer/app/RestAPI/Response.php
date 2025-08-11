@@ -82,14 +82,20 @@ class Response {
       if( isset( $import_current_feed[ 'latest_timestamp' ] ) && !empty( $import_current_feed[ 'latest_timestamp' ] ) )
         update_post_meta( intval( $request_data[ 'post_id' ] ), "secondline_latest_timestamp", $import_current_feed[ 'latest_timestamp' ] );
     } else if( isset( $meta_map[ 'secondline_import_continuous' ] ) && $meta_map[ 'secondline_import_continuous' ] == 'on' ) {
-      $channel_title = YIS_Helper_Youtube::get_channel_title( $importer->source_id );
+      $title_for_schedule = '';
 
-      if( is_wp_error( $channel_title ) )
-        $channel_title = $importer->source_id;
+      if ( isset( $meta_map['secondline_import_import_type'] ) && $meta_map['secondline_import_import_type'] === 'playlist' ) {
+        $title_for_schedule = YIS_Helper_Youtube::get_playlist_title( $importer->source_id );
+      } else {
+        $title_for_schedule = YIS_Helper_Youtube::get_channel_title( $importer->source_id );
+      }
 
-      if( 0 === post_exists( $channel_title, "", "", YOUTUBE_IMPORTER_SECONDLINE_POST_TYPE_IMPORT )) {
+      if( is_wp_error( $title_for_schedule ) )
+        $title_for_schedule = $importer->source_id;
+
+      if( 0 === post_exists( $title_for_schedule, "", "", YOUTUBE_IMPORTER_SECONDLINE_POST_TYPE_IMPORT )) {
         $import_post = [
-          'post_title'   => $channel_title,
+          'post_title'   => $title_for_schedule,
           'post_type'    => YOUTUBE_IMPORTER_SECONDLINE_POST_TYPE_IMPORT,
           'post_status'  => 'publish',
         ];
@@ -126,7 +132,12 @@ class Response {
     }
 
     // Maybe deleted after queued, need to ensure it's fine.
-    if( isset( $meta_map[ 'secondline_youtube_channel_id' ] ) ) {
+    $has_source_id = (
+      isset( $meta_map[ 'secondline_youtube_channel_id' ] )
+      || isset( $meta_map[ 'secondline_youtube_playlist_id' ] )
+    );
+
+    if( $has_source_id ) {
       $importer = YIS_Helper_Importer::from_meta_map( $meta_map );
       $response = $importer->import_current_feed();
 

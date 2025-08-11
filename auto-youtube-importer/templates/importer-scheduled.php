@@ -12,8 +12,8 @@ $post_list = get_posts( [
   <table class="wp-list-table widefat fixed striped table-view-list posts">
     <thead>
       <tr>
-        <th><?php echo esc_html__( 'Channel', 'auto-youtube-importer' );?></th>
-        <th><?php echo esc_html__( 'Channel ID', 'auto-youtube-importer' );?></th>
+        <th><?php echo esc_html__( 'Title', 'auto-youtube-importer' );?></th>
+        <th><?php echo esc_html__( 'Source ID', 'auto-youtube-importer' );?></th>
         <th></th>
       </tr>
     </thead>
@@ -21,7 +21,16 @@ $post_list = get_posts( [
       <?php foreach( $post_list as $post ) : ?>
         <tr>
           <td><?php echo esc_html( get_the_title( $post ) ); ?></td>
-          <td><?php echo esc_html( get_post_meta($post->ID, 'secondline_youtube_channel_id', true) );?></td>
+          <td>
+            <?php
+              $import_type = get_post_meta( $post->ID, 'secondline_import_import_type', true );
+              if ( $import_type === 'playlist' ) {
+                echo esc_html( get_post_meta( $post->ID, 'secondline_youtube_playlist_id', true ) );
+              } else {
+                echo esc_html( get_post_meta( $post->ID, 'secondline_youtube_channel_id', true) );
+              }
+            ?>
+          </td>
           <td class="secondline_import_buttons_container">
             <?php do_action( YOUTUBE_IMPORTER_SECONDLINE_ALIAS . '_before_feed_item_operations', $post ); ?>
             <a href="tools.php?page=<?php echo YOUTUBE_IMPORTER_SECONDLINE_PREFIX; ?>&tab=edit&post_id=<?php echo esc_attr($post->ID); ?>" class="button button-primary">

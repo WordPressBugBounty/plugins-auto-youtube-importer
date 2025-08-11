@@ -5,7 +5,7 @@ Tags: YouTube, import, sync, video, channel
 Requires at least: 4.8
 Tested up to: 6.6
 Requires PHP: 7.1
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -73,6 +73,11 @@ Second, feel free to contact us if you encounter any issues.
 2. Add multiple continuous import processes of separate YouTube channels / playlists.
 
 == Changelog ==
+
+= 1.1.1 =
+* Fix missing iframe code.
+* Fix channel/playlist name in scheduled imports.
+* Misc fixes and improvements.
 
 = 1.1.0 =
 * Update: Action Scheduler version.

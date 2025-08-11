@@ -60,6 +60,12 @@ class FeedItem {
       $GLOBALS['wp_embed']->usecache = $usecache_status;
     }
 
+    // Fallback: if auto-embed failed or returned the original URL, build a direct iframe embed
+    if ( empty( $this->player_embed_html ) || trim( $this->player_embed_html ) === $this->player_url ) {
+      $video_id_attr = esc_attr( $this->youtube_video_id );
+      $this->player_embed_html = '<iframe width="560" height="315" src="https://www.youtube.com/embed/' . $video_id_attr . '" frameborder="0" allowfullscreen></iframe>';
+    }
+
     if( $this->importer->import_prepend_title !== '' )
       $this->current_post_information[ 'post_title' ] = $this->importer->import_prepend_title . ' ' . $this->current_post_information[ 'post_title' ];
 

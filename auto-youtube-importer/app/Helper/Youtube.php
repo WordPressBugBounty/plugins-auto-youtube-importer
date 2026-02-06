@@ -71,6 +71,8 @@ class Youtube {
   public static function get_items( $channel_id, $total_max_results = 500, $api_key = null, $max_timestamp_from = false ) {
     if( empty( $api_key ) )
       $api_key = YIS_Settings::instance()->get( 'youtube_api_key' );
+    if( empty( $channel_id ) )
+      return [];
 
     $request_args = [
       'key'        => $api_key,

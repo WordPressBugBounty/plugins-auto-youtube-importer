@@ -72,8 +72,8 @@ class ActionScheduler {
 
     // Maybe deleted after queued, need to ensure it's fine.
     $has_source_id = (
-      isset( $meta_map[ 'secondline_youtube_channel_id' ] )
-      || isset( $meta_map[ 'secondline_youtube_playlist_id' ] )
+      !empty( $meta_map[ 'secondline_youtube_channel_id' ] )
+      || !empty( $meta_map[ 'secondline_youtube_playlist_id' ] )
     );
 
     if( $has_source_id ) {
